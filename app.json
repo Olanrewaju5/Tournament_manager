@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "TournamentOS",
+    "slug": "tournamentos-mobile",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "tournamentos",
+    "userInterfaceStyle": "dark",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0B0B0F"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}
