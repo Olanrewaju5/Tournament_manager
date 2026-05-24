@@ -101,6 +101,34 @@ export const teams: Team[] = [
     losses: 1,
     goalsFor: 8,
     goalsAgainst: 7
+  },
+  {
+    id: "hoop-kings",
+    name: "Hoop Yard Kings",
+    shortName: "HYK",
+    city: "Ikorodu",
+    colors: ["#00C2FF", "#0B0B0F"],
+    captain: "Emeka Eze",
+    bio: "Explosive backcourt unit with elite three-point shooting and relentless defensive pressure.",
+    wins: 2,
+    draws: 0,
+    losses: 1,
+    goalsFor: 198,
+    goalsAgainst: 165
+  },
+  {
+    id: "rowe-ballers",
+    name: "Rowe Ballers",
+    shortName: "RWB",
+    city: "Ikorodu",
+    colors: ["#A855F7", "#F97316"],
+    captain: "Seun Adeyemi",
+    bio: "Paint-dominant squad built around interior scoring and team-first defense.",
+    wins: 1,
+    draws: 0,
+    losses: 2,
+    goalsFor: 170,
+    goalsAgainst: 188
   }
 ];
 
@@ -111,7 +139,13 @@ export const players: Player[] = [
   { id: "p4", teamId: "mainland", name: "Femi Rhodes", position: "Midfielder", jerseyNumber: 10, goals: 4, assists: 3, awards: ["Captain"] },
   { id: "p5", teamId: "mainland", name: "Kola Briggs", position: "Forward", jerseyNumber: 11, goals: 5, assists: 1, awards: [] },
   { id: "p6", teamId: "surulere", name: "Jude Okorie", position: "Defender", jerseyNumber: 5, goals: 1, assists: 0, awards: ["Fair Play"] },
-  { id: "p7", teamId: "lekki", name: "David King", position: "Winger", jerseyNumber: 7, goals: 3, assists: 4, awards: [] }
+  { id: "p7", teamId: "lekki", name: "David King", position: "Winger", jerseyNumber: 7, goals: 3, assists: 4, awards: [] },
+  { id: "p8", teamId: "hoop-kings", name: "Emeka Eze", position: "Guard", jerseyNumber: 3, goals: 22, assists: 8, awards: ["Top Scorer"] },
+  { id: "p9", teamId: "hoop-kings", name: "Chidi Obi", position: "Forward", jerseyNumber: 7, goals: 18, assists: 4, awards: [] },
+  { id: "p10", teamId: "hoop-kings", name: "Kola Nwosu", position: "Center", jerseyNumber: 11, goals: 12, assists: 2, awards: [] },
+  { id: "p11", teamId: "rowe-ballers", name: "Seun Adeyemi", position: "Center", jerseyNumber: 5, goals: 20, assists: 3, awards: ["Captain"] },
+  { id: "p12", teamId: "rowe-ballers", name: "Tunde Bello", position: "Guard", jerseyNumber: 2, goals: 14, assists: 9, awards: [] },
+  { id: "p13", teamId: "rowe-ballers", name: "Ayo Martins", position: "Forward", jerseyNumber: 8, goals: 10, assists: 5, awards: [] }
 ];
 
 export const matches: Match[] = [
@@ -145,6 +179,19 @@ export const matches: Match[] = [
     startsAt: "2026-05-10T18:30:00Z",
     venue: "Campos Pitch B",
     round: "Matchday 5",
+    events: []
+  },
+  {
+    id: "match-hoops-q1",
+    tournamentId: "ikorodu-hoops",
+    homeTeamId: "hoop-kings",
+    awayTeamId: "rowe-ballers",
+    homeScore: 0,
+    awayScore: 0,
+    status: "scheduled",
+    startsAt: "2026-05-30T18:30:00Z",
+    venue: "Rowe Park Court A",
+    round: "Quarter Final",
     events: []
   },
   {

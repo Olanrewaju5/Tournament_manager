@@ -1,16 +1,20 @@
 import { Stack, useLocalSearchParams } from "expo-router";
-import { ShieldCheck, Star } from "lucide-react-native";
+import { Check, Plus, ShieldCheck, Star } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
+import { PrimaryButton } from "@/components/PrimaryButton";
 import { Screen } from "@/components/Screen";
 import { SectionHeader } from "@/components/SectionHeader";
 import { StatPill } from "@/components/StatPill";
 import { TeamBadge } from "@/components/TeamBadge";
 import { repository } from "@/lib/mock-repository";
+import { useAppStore } from "@/store/app-store";
 import { colors } from "@/theme/colors";
 
 export default function TeamDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const team = repository.getTeamById(id);
+  const followedTeamIds = useAppStore((state) => state.followedTeamIds);
+  const toggleFollowedTeam = useAppStore((state) => state.toggleFollowedTeam);
 
   if (!team) {
     return (
@@ -21,6 +25,7 @@ export default function TeamDetailScreen() {
   }
 
   const roster = repository.getPlayersByTeam(team.id);
+  const isFollowing = followedTeamIds.includes(team.id);
 
   return (
     <Screen>
@@ -30,6 +35,13 @@ export default function TeamDetailScreen() {
         <Text style={styles.title}>{team.name}</Text>
         <Text style={styles.city}>{team.city}</Text>
         <Text style={styles.bio}>{team.bio}</Text>
+        <PrimaryButton
+          label={isFollowing ? "Following" : "Follow team"}
+          variant={isFollowing ? "secondary" : "primary"}
+          icon={isFollowing ? <Check color={colors.text} size={17} /> : <Plus color={colors.text} size={17} />}
+          onPress={() => toggleFollowedTeam(team.id)}
+          style={styles.followBtn}
+        />
       </View>
 
       <View style={styles.stats}>
@@ -88,6 +100,10 @@ const styles = StyleSheet.create({
     fontFamily: "Sora_700Bold",
     fontSize: 12,
     marginTop: 4
+  },
+  followBtn: {
+    alignSelf: "stretch",
+    marginTop: 14
   },
   bio: {
     color: colors.textMuted,
