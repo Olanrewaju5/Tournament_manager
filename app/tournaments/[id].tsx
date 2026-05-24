@@ -94,7 +94,7 @@ export default function TournamentDetailScreen() {
       ) : null}
 
       <SectionHeader title="Standings" />
-      <StandingsTable />
+      <StandingsTable tournamentId={id} />
 
       <SectionHeader title="Organizer notes" />
       <View style={styles.note}>

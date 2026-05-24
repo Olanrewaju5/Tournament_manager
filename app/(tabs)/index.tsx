@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import { Activity, BellRing, CalendarClock, Check, ImagePlus, LucideIcon, Plus, UsersRound } from "lucide-react-native";
+import { Activity, BellRing, CalendarClock, Check, ImagePlus, LucideIcon, Plus, UserRound, UsersRound } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { EmptyState } from "@/components/EmptyState";
@@ -116,7 +116,12 @@ export default function HomeScreen() {
 
   return (
     <Screen>
-      <Text style={styles.kicker}>{roleTitle}</Text>
+      <View style={styles.topBar}>
+        <Text style={styles.kicker}>{roleTitle}</Text>
+        <Pressable onPress={() => router.push("/profile")} hitSlop={8} style={styles.profileBtn}>
+          <UserRound color={colors.textMuted} size={22} />
+        </Pressable>
+      </View>
       <Text style={styles.title}>{heroTitle}</Text>
 
       {isManagement && tournament ? (
@@ -191,11 +196,19 @@ function Task({ icon: Icon, title, body }: { icon: LucideIcon; title: string; bo
 }
 
 const styles = StyleSheet.create({
+  topBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 8
+  },
+  profileBtn: {
+    padding: 4
+  },
   kicker: {
     color: colors.secondary,
     fontFamily: "Sora_800ExtraBold",
     fontSize: 12,
-    marginTop: 8,
     textTransform: "uppercase"
   },
   title: {

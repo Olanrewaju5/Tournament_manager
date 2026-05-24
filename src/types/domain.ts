@@ -83,6 +83,7 @@ export type Match = {
 };
 
 export type Standing = {
+  tournamentId: string;
   teamId: string;
   played: number;
   wins: number;

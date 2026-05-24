@@ -3,8 +3,14 @@ import { repository } from "@/lib/mock-repository";
 import { colors } from "@/theme/colors";
 import { TeamBadge } from "@/components/TeamBadge";
 
-export function StandingsTable() {
-  const standings = repository.getStandings();
+type StandingsTableProps = {
+  tournamentId?: string;
+};
+
+export function StandingsTable({ tournamentId }: StandingsTableProps) {
+  const standings = tournamentId
+    ? repository.getStandingsByTournament(tournamentId)
+    : repository.getStandings();
 
   return (
     <View style={styles.table}>

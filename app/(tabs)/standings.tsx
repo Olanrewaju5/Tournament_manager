@@ -17,7 +17,7 @@ export default function StandingsScreen() {
       <Text style={styles.title}>League table</Text>
       <Text style={styles.body}>Dense enough for organizers, clean enough for every fan on matchday.</Text>
       <SectionHeader title={tournament?.name ?? "Standings"} action={latestRound} />
-      <StandingsTable />
+      <StandingsTable tournamentId={selectedTournamentId} />
     </Screen>
   );
 }

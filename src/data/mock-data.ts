@@ -212,10 +212,12 @@ export const matches: Match[] = [
 ];
 
 export const standings: Standing[] = [
-  { teamId: "islanders", played: 5, wins: 4, draws: 1, losses: 0, goalDifference: 9, points: 13, movement: "up" },
-  { teamId: "mainland", played: 5, wins: 3, draws: 1, losses: 1, goalDifference: 4, points: 10, movement: "same" },
-  { teamId: "surulere", played: 5, wins: 3, draws: 0, losses: 2, goalDifference: 2, points: 9, movement: "down" },
-  { teamId: "lekki", played: 5, wins: 2, draws: 2, losses: 1, goalDifference: 1, points: 8, movement: "up" }
+  { tournamentId: "lagos-summer-cup", teamId: "islanders", played: 5, wins: 4, draws: 1, losses: 0, goalDifference: 9, points: 13, movement: "up" },
+  { tournamentId: "lagos-summer-cup", teamId: "mainland", played: 5, wins: 3, draws: 1, losses: 1, goalDifference: 4, points: 10, movement: "same" },
+  { tournamentId: "lagos-summer-cup", teamId: "surulere", played: 5, wins: 3, draws: 0, losses: 2, goalDifference: 2, points: 9, movement: "down" },
+  { tournamentId: "lagos-summer-cup", teamId: "lekki", played: 5, wins: 2, draws: 2, losses: 1, goalDifference: 1, points: 8, movement: "up" },
+  { tournamentId: "ikorodu-hoops", teamId: "hoop-kings", played: 3, wins: 2, draws: 0, losses: 1, goalDifference: 33, points: 6, movement: "up" },
+  { tournamentId: "ikorodu-hoops", teamId: "rowe-ballers", played: 3, wins: 1, draws: 0, losses: 2, goalDifference: -33, points: 3, movement: "down" }
 ];
 
 export const graphicTemplates: GraphicTemplate[] = [

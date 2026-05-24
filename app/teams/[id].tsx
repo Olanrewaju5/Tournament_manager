@@ -1,6 +1,6 @@
-import { Stack, useLocalSearchParams } from "expo-router";
-import { Check, Plus, ShieldCheck, Star } from "lucide-react-native";
-import { StyleSheet, Text, View } from "react-native";
+import { router, Stack, useLocalSearchParams } from "expo-router";
+import { Check, ChevronRight, Plus, ShieldCheck, Star } from "lucide-react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { Screen } from "@/components/Screen";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -62,7 +62,11 @@ export default function TeamDetailScreen() {
       <SectionHeader title="Roster" action={`${roster.length} players`} />
       <View style={styles.roster}>
         {roster.map((player) => (
-          <View key={player.id} style={styles.player}>
+          <Pressable
+            key={player.id}
+            style={({ pressed }) => [styles.player, pressed && styles.pressed]}
+            onPress={() => router.push(`/players/${player.id}`)}
+          >
             <View style={styles.number}>
               <Text style={styles.numberText}>{player.jerseyNumber}</Text>
             </View>
@@ -71,7 +75,8 @@ export default function TeamDetailScreen() {
               <Text style={styles.position}>{player.position} · {player.goals} goals · {player.assists} assists</Text>
             </View>
             {player.awards.length ? <Star color={colors.warning} size={18} /> : null}
-          </View>
+            <ChevronRight color={colors.textSubtle} size={16} />
+          </Pressable>
         ))}
       </View>
     </Screen>
@@ -151,6 +156,9 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     backgroundColor: colors.surface,
     padding: 12
+  },
+  pressed: {
+    opacity: 0.86
   },
   number: {
     width: 42,
