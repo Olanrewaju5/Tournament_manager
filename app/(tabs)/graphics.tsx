@@ -20,7 +20,11 @@ export default function GraphicsScreen() {
         <Text style={styles.previewScore}>ISL 2 : 1 MNS</Text>
         <Text style={styles.previewBody}>Lagos Summer Cup · 68’ live</Text>
       </LinearGradient>
-      <PrimaryButton label="Generate match graphic" icon={<ImagePlus color={colors.text} size={18} />} />
+      <PrimaryButton
+        label="Generate match graphic"
+        icon={<ImagePlus color={colors.text} size={18} />}
+        onPress={() => router.push("/graphics/score-blast")}
+      />
       <SectionHeader title="Templates" />
       <View style={styles.list}>
         {templates.map((template) => (

@@ -146,7 +146,7 @@ export default function HomeScreen() {
         )}
       </View>
 
-      <SectionHeader title="Live now" />
+      <SectionHeader title="Live now" action="Match center" onAction={() => router.push("/matches")} />
       {liveMatch ? (
         <MatchCard match={liveMatch} />
       ) : (

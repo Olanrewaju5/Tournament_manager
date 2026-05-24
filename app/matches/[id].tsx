@@ -1,5 +1,6 @@
 import { Stack, useLocalSearchParams } from "expo-router";
 import { Activity, ArrowLeftRight, MessageSquare, MessageSquareText, Square, Target } from "lucide-react-native";
+import { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Screen } from "@/components/Screen";
@@ -16,9 +17,31 @@ const EVENT_META: Record<MatchEventType, { icon: typeof Target; color: string }>
   commentary: { icon: MessageSquare, color: colors.textMuted }
 };
 
+function useMatchTimer(initialTimer: string | undefined, isLive: boolean) {
+  const [timer, setTimer] = useState(initialTimer ?? "0:00");
+  const ref = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (!isLive) return;
+    ref.current = setInterval(() => {
+      setTimer((prev) => {
+        const [min, sec] = prev.split(":").map(Number);
+        const totalSec = (min * 60 + sec + 1);
+        const m = Math.floor(totalSec / 60);
+        const s = totalSec % 60;
+        return `${m}:${s.toString().padStart(2, "0")}`;
+      });
+    }, 1000);
+    return () => { if (ref.current) clearInterval(ref.current); };
+  }, [isLive]);
+
+  return timer;
+}
+
 export default function MatchDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const match = repository.getMatchById(id);
+  const timer = useMatchTimer(match?.timer, match?.status === "live");
 
   if (!match) {
     return (
@@ -41,7 +64,7 @@ export default function MatchDetailScreen() {
       <LinearGradient colors={["#1E2C51", "#141419"]} style={styles.scoreboard}>
         <View style={styles.liveRow}>
           <Activity color={match.status === "live" ? colors.success : colors.textMuted} size={16} />
-          <Text style={[styles.liveText, match.status === "live" && styles.live]}>{match.status === "live" ? `${match.timer} live` : match.status}</Text>
+          <Text style={[styles.liveText, match.status === "live" && styles.live]}>{match.status === "live" ? `${timer} live` : match.status}</Text>
         </View>
         <View style={styles.teams}>
           <View style={styles.teamBlock}>
