@@ -1,5 +1,6 @@
+import { router } from "expo-router";
 import { ImagePlus } from "lucide-react-native";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { Screen } from "@/components/Screen";
@@ -23,7 +24,11 @@ export default function GraphicsScreen() {
       <SectionHeader title="Templates" />
       <View style={styles.list}>
         {templates.map((template) => (
-          <View key={template.id} style={styles.template}>
+          <Pressable
+            key={template.id}
+            style={({ pressed }) => [styles.template, pressed && styles.pressed]}
+            onPress={() => router.push(`/graphics/${template.id}`)}
+          >
             <View style={styles.templateArt}>
               <Text style={styles.templateType}>{template.type}</Text>
             </View>
@@ -32,7 +37,7 @@ export default function GraphicsScreen() {
               <Text style={styles.templateBody}>{template.description}</Text>
               <Text style={styles.templateMeta}>{template.ratio} · {template.exportTargets.join(", ")}</Text>
             </View>
-          </View>
+          </Pressable>
         ))}
       </View>
     </Screen>
@@ -81,6 +86,9 @@ const styles = StyleSheet.create({
   },
   list: {
     gap: 10
+  },
+  pressed: {
+    opacity: 0.86
   },
   template: {
     flexDirection: "row",

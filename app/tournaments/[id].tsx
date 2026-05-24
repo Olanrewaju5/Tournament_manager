@@ -1,7 +1,8 @@
 import { Stack, useLocalSearchParams } from "expo-router";
-import { CalendarDays, MapPin, Trophy, UsersRound } from "lucide-react-native";
+import { CalendarDays, MapPin, Star, Trophy, UsersRound } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
 import { MatchCard } from "@/components/MatchCard";
+import { EmptyState } from "@/components/EmptyState";
 import { Screen } from "@/components/Screen";
 import { SectionHeader } from "@/components/SectionHeader";
 import { StatPill } from "@/components/StatPill";
@@ -13,6 +14,13 @@ export default function TournamentDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const tournament = repository.getTournamentById(id);
   const matches = repository.getMatchesByTournament(id);
+
+  const teamIds = [...new Set(matches.flatMap((m) => [m.homeTeamId, m.awayTeamId]))];
+  const topScorers = teamIds
+    .flatMap((tid) => repository.getPlayersByTeam(tid))
+    .filter((p) => p.goals > 0)
+    .sort((a, b) => b.goals - a.goals)
+    .slice(0, 5);
 
   if (!tournament) {
     return (
@@ -46,12 +54,44 @@ export default function TournamentDetailScreen() {
         <StatPill label="Format" value={tournament.format} />
       </View>
 
-      <SectionHeader title="Fixtures" action={`${matches.length} matches`} />
-      <View style={styles.list}>
-        {matches.map((match) => (
-          <MatchCard key={match.id} match={match} />
-        ))}
-      </View>
+      <SectionHeader title="Fixtures" action={matches.length > 0 ? `${matches.length} matches` : undefined} />
+      {matches.length > 0 ? (
+        <View style={styles.list}>
+          {matches.map((match) => (
+            <MatchCard key={match.id} match={match} />
+          ))}
+        </View>
+      ) : (
+        <EmptyState
+          icon={CalendarDays}
+          title="No fixtures yet"
+          body="Fixtures will appear here once the organizer publishes the schedule."
+        />
+      )}
+
+      {topScorers.length > 0 ? (
+        <>
+          <SectionHeader title="Top scorers" />
+          <View style={styles.scorerList}>
+            {topScorers.map((player, index) => {
+              const team = repository.getTeamById(player.teamId);
+              return (
+                <View key={player.id} style={styles.scorer}>
+                  <Text style={styles.scorerRank}>{index + 1}</Text>
+                  <View style={styles.scorerCopy}>
+                    <Text style={styles.scorerName}>{player.name}</Text>
+                    <Text style={styles.scorerMeta}>{player.position} · {team?.shortName ?? "—"}</Text>
+                  </View>
+                  <View style={styles.scorerBadge}>
+                    <Star color={colors.warning} size={14} />
+                    <Text style={styles.scorerGoals}>{player.goals}</Text>
+                  </View>
+                </View>
+              );
+            })}
+          </View>
+        </>
+      ) : null}
 
       <SectionHeader title="Standings" />
       <StandingsTable />
@@ -112,6 +152,50 @@ const styles = StyleSheet.create({
   },
   list: {
     gap: 10
+  },
+  scorerList: {
+    gap: 8
+  },
+  scorer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+    paddingHorizontal: 14,
+    paddingVertical: 12
+  },
+  scorerRank: {
+    width: 18,
+    color: colors.textMuted,
+    fontFamily: "Sora_600SemiBold",
+    fontSize: 13
+  },
+  scorerCopy: {
+    flex: 1
+  },
+  scorerName: {
+    color: colors.text,
+    fontFamily: "Sora_700Bold",
+    fontSize: 14
+  },
+  scorerMeta: {
+    color: colors.textMuted,
+    fontFamily: "Sora_400Regular",
+    fontSize: 12,
+    marginTop: 2
+  },
+  scorerBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4
+  },
+  scorerGoals: {
+    color: colors.warning,
+    fontFamily: "Sora_800ExtraBold",
+    fontSize: 16
   },
   note: {
     flexDirection: "row",

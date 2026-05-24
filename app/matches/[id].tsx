@@ -1,5 +1,5 @@
 import { Stack, useLocalSearchParams } from "expo-router";
-import { Activity, MessageSquareText } from "lucide-react-native";
+import { Activity, ArrowLeftRight, MessageSquare, MessageSquareText, Square, Target } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Screen } from "@/components/Screen";
@@ -7,6 +7,14 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { TeamBadge } from "@/components/TeamBadge";
 import { repository } from "@/lib/mock-repository";
 import { colors } from "@/theme/colors";
+import { MatchEventType } from "@/types/domain";
+
+const EVENT_META: Record<MatchEventType, { icon: typeof Target; color: string }> = {
+  goal: { icon: Target, color: colors.success },
+  card: { icon: Square, color: colors.warning },
+  substitution: { icon: ArrowLeftRight, color: colors.secondary },
+  commentary: { icon: MessageSquare, color: colors.textMuted }
+};
 
 export default function MatchDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -55,17 +63,24 @@ export default function MatchDetailScreen() {
 
       <SectionHeader title="Event feed" action={`${match.events.length} updates`} />
       <View style={styles.feed}>
-        {match.events.map((event) => (
-          <View key={event.id} style={styles.event}>
-            <View style={styles.minute}>
-              <Text style={styles.minuteText}>{event.minute}'</Text>
+        {match.events.map((event) => {
+          const meta = EVENT_META[event.type];
+          const Icon = meta.icon;
+          return (
+            <View key={event.id} style={styles.event}>
+              <View style={styles.eventLeft}>
+                <View style={[styles.eventIcon, { backgroundColor: `${meta.color}22` }]}>
+                  <Icon color={meta.color} size={16} />
+                </View>
+                <Text style={styles.minuteText}>{event.minute}'</Text>
+              </View>
+              <View style={styles.eventCopy}>
+                <Text style={styles.eventTitle}>{event.playerName ?? "Commentary"}</Text>
+                <Text style={styles.eventBody}>{event.note}</Text>
+              </View>
             </View>
-            <View style={styles.eventCopy}>
-              <Text style={styles.eventTitle}>{event.playerName ?? "Commentary"}</Text>
-              <Text style={styles.eventBody}>{event.note}</Text>
-            </View>
-          </View>
-        ))}
+          );
+        })}
         {match.events.length === 0 ? (
           <View style={styles.noEvents}>
             <MessageSquareText color={colors.textMuted} size={22} />
@@ -159,18 +174,22 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     padding: 14
   },
-  minute: {
-    width: 46,
-    height: 46,
+  eventLeft: {
+    alignItems: "center",
+    gap: 4,
+    width: 42
+  },
+  eventIcon: {
+    width: 36,
+    height: 36,
     borderRadius: 8,
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.surfaceSoft
+    justifyContent: "center"
   },
   minuteText: {
-    color: colors.secondary,
-    fontFamily: "Sora_800ExtraBold",
-    fontSize: 13
+    color: colors.textSubtle,
+    fontFamily: "Sora_700Bold",
+    fontSize: 10
   },
   eventCopy: {
     flex: 1

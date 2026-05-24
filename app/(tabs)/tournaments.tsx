@@ -6,7 +6,14 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { repository } from "@/lib/mock-repository";
 import { useAppStore } from "@/store/app-store";
 import { colors } from "@/theme/colors";
-import { Tournament } from "@/types/domain";
+import { Tournament, TournamentStatus } from "@/types/domain";
+
+function statusColor(status: TournamentStatus): string {
+  if (status === "live") return colors.success;
+  if (status === "registration") return colors.secondary;
+  if (status === "completed") return colors.textMuted;
+  return colors.textSubtle;
+}
 
 export default function TournamentsScreen() {
   const tournaments = repository.getTournaments();
@@ -42,7 +49,7 @@ function TournamentRow({ tournament, onPress }: { tournament: Tournament; onPres
       <View style={styles.copy}>
         <View style={styles.topLine}>
           <Text style={styles.name}>{tournament.name}</Text>
-          <Text style={styles.status}>{tournament.status}</Text>
+          <Text style={[styles.status, { color: statusColor(tournament.status) }]}>{tournament.status}</Text>
         </View>
         <Text style={styles.description} numberOfLines={2}>{tournament.description}</Text>
         <View style={styles.metaRow}>
@@ -109,7 +116,6 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   status: {
-    color: colors.success,
     fontFamily: "Sora_700Bold",
     fontSize: 11,
     textTransform: "uppercase"
