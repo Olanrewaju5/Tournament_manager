@@ -1,10 +1,13 @@
 import { graphicTemplates, matches, notifications, players, standings, teams, tournaments } from "@/data/mock-data";
+import { useAppStore } from "@/store/app-store";
+
+const allTeams = () => [...teams, ...useAppStore.getState().customTeams];
 
 export const repository = {
   getTournaments: () => tournaments,
   getTournamentById: (id: string) => tournaments.find((tournament) => tournament.id === id),
-  getTeams: () => teams,
-  getTeamById: (id: string) => teams.find((team) => team.id === id),
+  getTeams: () => allTeams(),
+  getTeamById: (id: string) => allTeams().find((team) => team.id === id),
   getPlayersByTeam: (teamId: string) => players.filter((player) => player.teamId === teamId),
   getPlayerById: (id: string) => players.find((player) => player.id === id),
   getMatchesByTournament: (tournamentId: string) => matches.filter((match) => match.tournamentId === tournamentId),
@@ -13,5 +16,5 @@ export const repository = {
   getStandings: () => standings,
   getStandingsByTournament: (tournamentId: string) => standings.filter((s) => s.tournamentId === tournamentId),
   getGraphicTemplates: () => graphicTemplates,
-  getNotifications: () => notifications
+  getNotifications: () => notifications,
 };

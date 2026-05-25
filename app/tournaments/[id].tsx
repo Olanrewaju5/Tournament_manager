@@ -1,19 +1,23 @@
-import { Stack, useLocalSearchParams } from "expo-router";
-import { CalendarDays, MapPin, Star, Trophy, UsersRound } from "lucide-react-native";
+import { router, Stack, useLocalSearchParams } from "expo-router";
+import { CalendarDays, MapPin, Plus, Star, Trophy, UsersRound } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
 import { MatchCard } from "@/components/MatchCard";
 import { EmptyState } from "@/components/EmptyState";
+import { PrimaryButton } from "@/components/PrimaryButton";
 import { Screen } from "@/components/Screen";
 import { SectionHeader } from "@/components/SectionHeader";
 import { StatPill } from "@/components/StatPill";
 import { StandingsTable } from "@/components/StandingsTable";
 import { repository } from "@/lib/mock-repository";
+import { useAppStore } from "@/store/app-store";
 import { colors } from "@/theme/colors";
 
 export default function TournamentDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const role = useAppStore((s) => s.selectedRole);
   const tournament = repository.getTournamentById(id);
   const matches = repository.getMatchesByTournament(id);
+  const canAddTeam = role === "organizer" || role === "team-manager";
 
   const teamIds = [...new Set(matches.flatMap((m) => [m.homeTeamId, m.awayTeamId]))];
   const topScorers = teamIds
@@ -93,6 +97,17 @@ export default function TournamentDetailScreen() {
         </>
       ) : null}
 
+      <SectionHeader title="Teams" />
+      {canAddTeam && (
+        <PrimaryButton
+          label="Register a team"
+          variant="secondary"
+          icon={<Plus color={colors.text} size={17} />}
+          onPress={() => router.push("/teams/new")}
+          style={styles.registerBtn}
+        />
+      )}
+
       <SectionHeader title="Standings" />
       <StandingsTable tournamentId={id} />
 
@@ -149,6 +164,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
     marginTop: 14
+  },
+  registerBtn: {
+    marginBottom: 4,
   },
   list: {
     gap: 10

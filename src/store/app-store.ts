@@ -1,15 +1,17 @@
 import { create } from "zustand";
-import { UserRole } from "@/types/domain";
+import { Team, UserRole } from "@/types/domain";
 
 type AppState = {
   hasCompletedOnboarding: boolean;
   selectedRole: UserRole;
   selectedTournamentId: string;
   followedTeamIds: string[];
+  customTeams: Team[];
   completeOnboarding: () => void;
   setSelectedRole: (role: UserRole) => void;
   setSelectedTournamentId: (id: string) => void;
   toggleFollowedTeam: (id: string) => void;
+  addTeam: (team: Team) => void;
 };
 
 export const useAppStore = create<AppState>((set) => ({
@@ -17,6 +19,7 @@ export const useAppStore = create<AppState>((set) => ({
   selectedRole: "organizer",
   selectedTournamentId: "lagos-summer-cup",
   followedTeamIds: ["islanders"],
+  customTeams: [],
   completeOnboarding: () => set({ hasCompletedOnboarding: true }),
   setSelectedRole: (selectedRole) => set({ selectedRole }),
   setSelectedTournamentId: (selectedTournamentId) => set({ selectedTournamentId }),
@@ -25,5 +28,7 @@ export const useAppStore = create<AppState>((set) => ({
       followedTeamIds: state.followedTeamIds.includes(id)
         ? state.followedTeamIds.filter((teamId) => teamId !== id)
         : [...state.followedTeamIds, id]
-    }))
+    })),
+  addTeam: (team) =>
+    set((state) => ({ customTeams: [...state.customTeams, team] })),
 }));

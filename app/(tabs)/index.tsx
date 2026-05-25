@@ -27,19 +27,35 @@ function ManagementPanel({ tournament, role }: { tournament: NonNullable<ReturnT
       <View style={styles.quickActions}>
         {role === "organizer" ? (
           <>
-            <PrimaryButton label="Create" icon={<Plus color={colors.text} size={18} />} style={styles.quickButton} />
             <PrimaryButton
-              label="Teams"
+              label="Add team"
+              icon={<Plus color={colors.text} size={18} />}
+              style={styles.quickButton}
+              onPress={() => router.push("/teams/new")}
+            />
+            <PrimaryButton
+              label="Leagues"
               variant="secondary"
               icon={<UsersRound color={colors.text} size={18} />}
               style={styles.quickButton}
-              onPress={() => router.push("/teams/islanders")}
+              onPress={() => router.push("/tournaments/" + tournament.id)}
             />
           </>
         ) : (
           <>
-            <PrimaryButton label="My team" icon={<UsersRound color={colors.text} size={18} />} style={styles.quickButton} onPress={() => router.push("/teams/islanders")} />
-            <PrimaryButton label="Fixtures" variant="secondary" icon={<CalendarClock color={colors.text} size={18} />} style={styles.quickButton} onPress={() => router.push(`/tournaments/${tournament.id}`)} />
+            <PrimaryButton
+              label="Add team"
+              icon={<Plus color={colors.text} size={18} />}
+              style={styles.quickButton}
+              onPress={() => router.push("/teams/new")}
+            />
+            <PrimaryButton
+              label="Fixtures"
+              variant="secondary"
+              icon={<CalendarClock color={colors.text} size={18} />}
+              style={styles.quickButton}
+              onPress={() => router.push(`/tournaments/${tournament.id}`)}
+            />
           </>
         )}
       </View>
