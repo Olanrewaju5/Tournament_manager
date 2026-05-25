@@ -55,6 +55,7 @@ export type Player = {
 };
 
 export type MatchEventType = "goal" | "card" | "substitution" | "commentary";
+export type CardColor = "yellow" | "red";
 
 export type MatchEvent = {
   id: string;
@@ -63,6 +64,15 @@ export type MatchEvent = {
   teamId?: string;
   playerName?: string;
   note: string;
+  cardColor?: CardColor;
+};
+
+export type PlayerRating = {
+  playerId: string;
+  playerName: string;
+  teamId: string;
+  rating: number; // 1–10
+  note?: string;
 };
 
 export type MatchStatus = "scheduled" | "live" | "final";
@@ -80,6 +90,7 @@ export type Match = {
   timer?: string;
   round: string;
   events: MatchEvent[];
+  ratings?: PlayerRating[];
 };
 
 export type Standing = {
