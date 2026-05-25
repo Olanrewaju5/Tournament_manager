@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Match, MatchEvent, MatchStatus, PlayerRating, Team, Tournament, UserRole } from "@/types/domain";
+import { Match, MatchEvent, MatchStatus, Player, PlayerRating, Team, Tournament, UserRole } from "@/types/domain";
 
 type MatchEdit = {
   homeScore: number;
@@ -16,6 +16,8 @@ type AppState = {
   followedTeamIds: string[];
   customTeams: Team[];
   customTournaments: Tournament[];
+  customMatches: Match[];
+  customPlayers: Player[];
   matchEdits: Record<string, MatchEdit>;
   completeOnboarding: () => void;
   setSelectedRole: (role: UserRole) => void;
@@ -23,6 +25,8 @@ type AppState = {
   toggleFollowedTeam: (id: string) => void;
   addTeam: (team: Team) => void;
   addTournament: (tournament: Tournament) => void;
+  addMatch: (match: Match) => void;
+  addPlayer: (player: Player) => void;
   initMatchEdit: (match: Match) => void;
   updateMatchScore: (matchId: string, team: "home" | "away", delta: number) => void;
   updateMatchStatus: (matchId: string, status: MatchStatus) => void;
@@ -38,6 +42,8 @@ export const useAppStore = create<AppState>((set, get) => ({
   followedTeamIds: ["islanders"],
   customTeams: [],
   customTournaments: [],
+  customMatches: [],
+  customPlayers: [],
   matchEdits: {},
   completeOnboarding: () => set({ hasCompletedOnboarding: true }),
   setSelectedRole: (selectedRole) => set({ selectedRole }),

@@ -22,19 +22,25 @@ There is no lint or test script configured.
 
 ```
 app/
-  index.tsx              → redirects to /onboarding or /(tabs) based on store state
-  _layout.tsx            → root Stack: loads Sora fonts, guards onboarding redirect
-  onboarding/index.tsx   → role selection; calls completeOnboarding() then navigates to /(tabs)
+  index.tsx                → redirects to /onboarding or /(tabs) based on store state
+  _layout.tsx              → root Stack: loads Sora fonts, guards onboarding redirect
+  onboarding/index.tsx     → role selection; calls completeOnboarding() then navigates to /(tabs)
+  profile.tsx              → role switcher + followed teams management
   (tabs)/
-    _layout.tsx          → bottom tab bar (Home, Leagues, Table, Studio, Alerts)
-    index.tsx            → role-aware home dashboard
-    tournaments.tsx      → tournament list
-    standings.tsx        → standings table
-    graphics.tsx         → graphic template studio
-    notifications.tsx    → notifications feed
-  matches/[id].tsx       → match detail
-  teams/[id].tsx         → team/roster detail
-  tournaments/[id].tsx   → tournament detail
+    _layout.tsx            → bottom tab bar (Home, Leagues, Table, Studio, Alerts)
+    index.tsx              → role-aware home dashboard
+    tournaments.tsx        → tournament list
+    standings.tsx          → standings table
+    graphics.tsx           → graphic template studio
+    notifications.tsx      → notifications feed
+  matches/index.tsx        → match centre (all fixtures grouped: live / upcoming / results)
+  matches/[id]/index.tsx   → match detail with live score editor, events, and player ratings
+  teams/[id].tsx           → team roster detail; follow/unfollow button
+  teams/new.tsx            → create team form
+  tournaments/[id].tsx     → tournament detail
+  tournaments/new.tsx      → create tournament form
+  players/[id].tsx         → player profile
+  graphics/[id].tsx        → graphic template detail / export
 ```
 
 ### Data layer
@@ -42,24 +48,29 @@ app/
 All data is static mock data — there is no API or backend.
 
 - **`src/data/mock-data.ts`** — all seed data (tournaments, teams, players, matches, standings, etc.)
-- **`src/lib/mock-repository.ts`** — thin query façade over mock-data; screens import `repository` and call methods like `repository.getTournamentById(id)`. Replace this layer when a real API is introduced.
-- **`src/types/domain.ts`** — all domain types (`Tournament`, `Team`, `Player`, `Match`, `Standing`, `GraphicTemplate`, `NotificationItem`, `UserRole`, etc.)
+- **`src/lib/mock-repository.ts`** — thin query façade over mock-data **plus** Zustand store state. Screens always call `repository.*` rather than importing mock-data directly, so swapping in a real API only requires changing this file. `applyMatchEdit()` merges live edits from the store on top of base match data.
+- **`src/types/domain.ts`** — all domain types (`Tournament`, `Team`, `Player`, `Match`, `MatchEvent`, `PlayerRating`, `Standing`, `GraphicTemplate`, `NotificationItem`, `UserRole`, etc.)
 
 ### Global state (Zustand)
 
-`src/store/app-store.ts` holds the single `useAppStore` store:
+`src/store/app-store.ts` — single `useAppStore` store (no persistence/hydration):
 
 | State field | Purpose |
 |---|---|
 | `hasCompletedOnboarding` | guards onboarding redirect in root `_layout.tsx` |
-| `selectedRole` | drives role-aware UI across screens |
+| `selectedRole` | drives role-aware UI across all screens |
 | `selectedTournamentId` | the active tournament context |
 | `followedTeamIds` | teams the user follows |
+| `customTeams / customTournaments / customMatches / customPlayers` | user-created records merged into repository queries |
+| `matchEdits` | live per-match edits (score, status, events, ratings) keyed by match ID |
+
+Match editing flow: call `initMatchEdit(match)` once to seed the edit state from base data, then use `updateMatchScore`, `updateMatchStatus`, `addMatchEvent`, `removeMatchEvent`, and `setPlayerRating` to mutate. The repository's `applyMatchEdit()` overlays these edits at read time.
 
 ### UI conventions
 
 - **`<Screen>`** (`src/components/Screen.tsx`) — wraps every screen in `SafeAreaView` + optional `ScrollView`. Props: `scroll` (default `true`), `padded` (default `true`).
 - **`src/theme/colors.ts`** — single source of truth for the dark color palette. Always import from here; never hardcode hex values.
-- **Sora font family** — all text uses Sora (loaded in root `_layout.tsx`). Use `fontFamily: "Sora_400Regular"` through `"Sora_800ExtraBold"`.
+- **Sora font family** — all text uses Sora (loaded in root `_layout.tsx`). Available weights: `Sora_400Regular`, `Sora_500Medium`, `Sora_600SemiBold`, `Sora_700Bold`, `Sora_800ExtraBold`.
 - Icons: `lucide-react-native`.
 - Path alias `@/*` maps to `src/*` (configured in `tsconfig.json`).
+- All styles use `StyleSheet.create`; no style props inline.

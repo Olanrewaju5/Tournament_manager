@@ -10,9 +10,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tournamentos.mobile"
     },
     "android": {
+      "package": "com.tournamentos.mobile",
       "adaptiveIcon": {
         "backgroundColor": "#0B0B0F"
       }
