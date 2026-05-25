@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Team, UserRole } from "@/types/domain";
+import { Team, Tournament, UserRole } from "@/types/domain";
 
 type AppState = {
   hasCompletedOnboarding: boolean;
@@ -7,11 +7,13 @@ type AppState = {
   selectedTournamentId: string;
   followedTeamIds: string[];
   customTeams: Team[];
+  customTournaments: Tournament[];
   completeOnboarding: () => void;
   setSelectedRole: (role: UserRole) => void;
   setSelectedTournamentId: (id: string) => void;
   toggleFollowedTeam: (id: string) => void;
   addTeam: (team: Team) => void;
+  addTournament: (tournament: Tournament) => void;
 };
 
 export const useAppStore = create<AppState>((set) => ({
@@ -20,6 +22,7 @@ export const useAppStore = create<AppState>((set) => ({
   selectedTournamentId: "lagos-summer-cup",
   followedTeamIds: ["islanders"],
   customTeams: [],
+  customTournaments: [],
   completeOnboarding: () => set({ hasCompletedOnboarding: true }),
   setSelectedRole: (selectedRole) => set({ selectedRole }),
   setSelectedTournamentId: (selectedTournamentId) => set({ selectedTournamentId }),
@@ -31,4 +34,6 @@ export const useAppStore = create<AppState>((set) => ({
     })),
   addTeam: (team) =>
     set((state) => ({ customTeams: [...state.customTeams, team] })),
+  addTournament: (tournament) =>
+    set((state) => ({ customTournaments: [...state.customTournaments, tournament] })),
 }));

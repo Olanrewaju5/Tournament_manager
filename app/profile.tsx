@@ -26,6 +26,9 @@ export default function ProfileScreen() {
     .map((id) => repository.getTeamById(id))
     .filter((t): t is NonNullable<typeof t> => t !== undefined);
 
+  const currentRole = ROLES.find((r) => r.id === selectedRole)!;
+  const CurrentRoleIcon = currentRole.icon;
+
   return (
     <Screen>
       <Stack.Screen options={{ title: "Profile" }} />
@@ -34,13 +37,22 @@ export default function ProfileScreen() {
         <View style={styles.avatar}>
           <UserRound color={colors.textMuted} size={32} />
         </View>
-        <View>
+        <View style={styles.avatarCopy}>
           <Text style={styles.avatarTitle}>Your account</Text>
-          <Text style={styles.avatarSub}>Role and preferences</Text>
+          <View style={styles.roleBadge}>
+            <CurrentRoleIcon color={colors.secondary} size={13} />
+            <Text style={styles.roleBadgeText}>{currentRole.label}</Text>
+          </View>
         </View>
       </View>
 
-      <SectionHeader title="Your role" />
+      <View style={styles.switchHint}>
+        <Text style={styles.switchHintText}>
+          Tap a role below to switch. The app adapts its features to the selected role.
+        </Text>
+      </View>
+
+      <SectionHeader title="Switch role" />
       <View style={styles.roleList}>
         {ROLES.map((role) => {
           const Icon = role.icon;
@@ -123,16 +135,44 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
+  avatarCopy: {
+    flex: 1
+  },
   avatarTitle: {
     color: colors.text,
     fontFamily: "Sora_700Bold",
     fontSize: 16
   },
-  avatarSub: {
+  roleBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    marginTop: 5,
+    backgroundColor: "#0d2535",
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.secondary,
+    alignSelf: "flex-start",
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+  },
+  roleBadgeText: {
+    color: colors.secondary,
+    fontFamily: "Sora_700Bold",
+    fontSize: 11,
+  },
+  switchHint: {
+    borderRadius: 8,
+    backgroundColor: colors.surfaceSoft,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    marginTop: 12,
+  },
+  switchHintText: {
     color: colors.textMuted,
     fontFamily: "Sora_400Regular",
-    fontSize: 12,
-    marginTop: 3
+    fontSize: 13,
+    lineHeight: 19,
   },
   roleList: {
     gap: 8

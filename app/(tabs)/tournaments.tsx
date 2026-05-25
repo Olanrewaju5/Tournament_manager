@@ -1,6 +1,7 @@
 import { router } from "expo-router";
-import { CalendarDays, MapPin, Trophy } from "lucide-react-native";
+import { CalendarDays, MapPin, Plus, Trophy } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { PrimaryButton } from "@/components/PrimaryButton";
 import { Screen } from "@/components/Screen";
 import { SectionHeader } from "@/components/SectionHeader";
 import { repository } from "@/lib/mock-repository";
@@ -16,22 +17,31 @@ function statusColor(status: TournamentStatus): string {
 }
 
 export default function TournamentsScreen() {
-  const tournaments = repository.getTournaments();
+  const allTournaments = repository.getTournaments();
   const setSelectedTournamentId = useAppStore((state) => state.setSelectedTournamentId);
+  const role = useAppStore((s) => s.selectedRole);
 
   return (
     <Screen>
       <Text style={styles.title}>Leagues & cups</Text>
       <Text style={styles.body}>Track registration, fixtures, sponsors, and matchday status from one place.</Text>
+      {role === "organizer" && (
+        <PrimaryButton
+          label="Create tournament"
+          icon={<Plus color={colors.text} size={17} />}
+          onPress={() => router.push("/tournaments/new")}
+          style={styles.createBtn}
+        />
+      )}
       <SectionHeader title="Active competitions" />
       <View style={styles.list}>
-        {tournaments.map((tournament) => (
+        {allTournaments.map((tournament) => (
           <TournamentRow
             key={tournament.id}
             tournament={tournament}
             onPress={() => {
               setSelectedTournamentId(tournament.id);
-              router.push(`/tournaments/${tournament.id}`);
+              router.push(`/tournaments/${tournament.id}` as never);
             }}
           />
         ))}
@@ -76,6 +86,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 22,
     marginTop: 8
+  },
+  createBtn: {
+    marginTop: 16,
+    marginBottom: 4,
   },
   list: {
     gap: 12

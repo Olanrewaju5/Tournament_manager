@@ -2,10 +2,11 @@ import { graphicTemplates, matches, notifications, players, standings, teams, to
 import { useAppStore } from "@/store/app-store";
 
 const allTeams = () => [...teams, ...useAppStore.getState().customTeams];
+const allTournaments = () => [...tournaments, ...useAppStore.getState().customTournaments];
 
 export const repository = {
-  getTournaments: () => tournaments,
-  getTournamentById: (id: string) => tournaments.find((tournament) => tournament.id === id),
+  getTournaments: () => allTournaments(),
+  getTournamentById: (id: string) => allTournaments().find((t) => t.id === id),
   getTeams: () => allTeams(),
   getTeamById: (id: string) => allTeams().find((team) => team.id === id),
   getPlayersByTeam: (teamId: string) => players.filter((player) => player.teamId === teamId),
