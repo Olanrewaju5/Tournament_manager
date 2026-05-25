@@ -11,7 +11,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tournamentos.mobile"
+      "bundleIdentifier": "com.tournamentos.mobile",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.tournamentos.mobile",
@@ -25,6 +28,12 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "e04a492f-80b4-4f9e-8847-220083bf2f40"
+      }
+    }
   }
 }
