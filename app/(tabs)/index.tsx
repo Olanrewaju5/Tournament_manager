@@ -134,7 +134,13 @@ export default function HomeScreen() {
     <Screen>
       <View style={styles.topBar}>
         <Text style={styles.kicker}>{roleTitle}</Text>
-        <Pressable onPress={() => router.push("/profile")} hitSlop={8} style={styles.profileBtn}>
+        <Pressable
+          onPress={() => router.push("/profile")}
+          hitSlop={8}
+          style={styles.profileBtn}
+          accessibilityRole="button"
+          accessibilityLabel="Open profile and role settings"
+        >
           <UserRound color={colors.textMuted} size={22} />
         </Pressable>
       </View>

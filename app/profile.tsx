@@ -97,7 +97,9 @@ export default function ProfileScreen() {
               <Pressable
                 onPress={() => toggleFollowedTeam(team.id)}
                 style={styles.unfollowBtn}
-                hitSlop={8}
+                hitSlop={10}
+                accessibilityRole="button"
+                accessibilityLabel={`Unfollow ${team.name}`}
               >
                 <X color={colors.textSubtle} size={16} />
               </Pressable>

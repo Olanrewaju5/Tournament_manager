@@ -163,7 +163,13 @@ export default function MatchEditScreen() {
         options={{
           title: `Edit · ${home.shortName} vs ${away.shortName}`,
           headerRight: () => (
-            <Pressable onPress={() => router.back()} hitSlop={8} style={{ marginRight: 4 }}>
+            <Pressable
+              onPress={() => router.back()}
+              hitSlop={8}
+              style={{ marginRight: 4 }}
+              accessibilityRole="button"
+              accessibilityLabel="Save and go back"
+            >
               <Save color={colors.secondary} size={22} />
             </Pressable>
           ),
@@ -321,7 +327,12 @@ export default function MatchEditScreen() {
                     <Text style={styles.feedTitle}>{event.minute}' · {event.playerName ?? "Note"}</Text>
                     <Text style={styles.feedNote}>{event.note}</Text>
                   </View>
-                  <Pressable onPress={() => removeMatchEvent(id, event.id)} hitSlop={8}>
+                  <Pressable
+                    onPress={() => removeMatchEvent(id, event.id)}
+                    hitSlop={10}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Remove event at ${event.minute} minutes`}
+                  >
                     <Trash2 color={colors.danger} size={18} />
                   </Pressable>
                 </View>

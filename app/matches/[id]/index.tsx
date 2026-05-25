@@ -67,7 +67,13 @@ export default function MatchDetailScreen() {
           title: `${home.shortName} vs ${away.shortName}`,
           headerRight: role === "organizer"
             ? () => (
-                <Pressable onPress={() => router.push(`/matches/${id}/edit`)} hitSlop={8} style={{ marginRight: 4 }}>
+                <Pressable
+                  onPress={() => router.push(`/matches/${id}/edit`)}
+                  hitSlop={8}
+                  style={{ marginRight: 4 }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Edit match"
+                >
                   <ClipboardEdit color={colors.secondary} size={22} />
                 </Pressable>
               )
