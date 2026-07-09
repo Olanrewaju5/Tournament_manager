@@ -1,4 +1,5 @@
 import {
+  Bracket,
   GraphicTemplate,
   Match,
   NotificationItem,
@@ -31,7 +32,7 @@ export const tournaments: Tournament[] = [
     name: "Ikorodu Hoops Night",
     sport: "Basketball",
     format: "knockout",
-    status: "registration",
+    status: "live",
     venue: "Rowe Park",
     organizer: "Hoop Yard",
     startsAt: "2026-05-30T18:30:00Z",
@@ -129,6 +130,90 @@ export const teams: Team[] = [
     losses: 2,
     goalsFor: 170,
     goalsAgainst: 188
+  },
+  {
+    id: "ikorodu-bulls",
+    name: "Ikorodu Bulls",
+    shortName: "IBL",
+    city: "Ikorodu",
+    colors: ["#DC2626", "#7F1D1D"],
+    captain: "Lanre Adesanya",
+    bio: "Relentless full-court pressure and elite scoring from the guard position.",
+    wins: 3,
+    draws: 0,
+    losses: 0,
+    goalsFor: 248,
+    goalsAgainst: 201
+  },
+  {
+    id: "island-warriors",
+    name: "Island Warriors",
+    shortName: "IWR",
+    city: "Lagos Island",
+    colors: ["#065F46", "#D97706"],
+    captain: "Chuka Nweze",
+    bio: "Disciplined defensive unit with a dominant paint presence.",
+    wins: 1,
+    draws: 0,
+    losses: 2,
+    goalsFor: 194,
+    goalsAgainst: 219
+  },
+  {
+    id: "mainland-giants",
+    name: "Mainland Giants",
+    shortName: "MGT",
+    city: "Yaba",
+    colors: ["#1D4ED8", "#BFDBFE"],
+    captain: "Segun Fabunmi",
+    bio: "Size and athleticism across all five positions.",
+    wins: 2,
+    draws: 0,
+    losses: 1,
+    goalsFor: 221,
+    goalsAgainst: 208
+  },
+  {
+    id: "lekki-legends",
+    name: "Lekki Legends",
+    shortName: "LLG",
+    city: "Lekki",
+    colors: ["#6D28D9", "#C4B5FD"],
+    captain: "Tola Oshodi",
+    bio: "High-octane offense powered by elite perimeter shooting.",
+    wins: 2,
+    draws: 0,
+    losses: 1,
+    goalsFor: 239,
+    goalsAgainst: 215
+  },
+  {
+    id: "surulere-shocks",
+    name: "Surulere Shocks",
+    shortName: "SSH",
+    city: "Surulere",
+    colors: ["#B45309", "#FDE68A"],
+    captain: "Biodun Ajayi",
+    bio: "Opportunistic transition team with fast break specialists.",
+    wins: 1,
+    draws: 0,
+    losses: 2,
+    goalsFor: 188,
+    goalsAgainst: 207
+  },
+  {
+    id: "yaba-yardbirds",
+    name: "Yaba Yardbirds",
+    shortName: "YYB",
+    city: "Yaba",
+    colors: ["#166534", "#BBF7D0"],
+    captain: "Fola Akintunde",
+    bio: "Scrappy and athletic — known for high-energy defensive rotations.",
+    wins: 1,
+    draws: 0,
+    losses: 2,
+    goalsFor: 179,
+    goalsAgainst: 201
   }
 ];
 
@@ -145,7 +230,13 @@ export const players: Player[] = [
   { id: "p10", teamId: "hoop-kings", name: "Kola Nwosu", position: "Center", jerseyNumber: 11, goals: 12, assists: 2, awards: [] },
   { id: "p11", teamId: "rowe-ballers", name: "Seun Adeyemi", position: "Center", jerseyNumber: 5, goals: 20, assists: 3, awards: ["Captain"] },
   { id: "p12", teamId: "rowe-ballers", name: "Tunde Bello", position: "Guard", jerseyNumber: 2, goals: 14, assists: 9, awards: [] },
-  { id: "p13", teamId: "rowe-ballers", name: "Ayo Martins", position: "Forward", jerseyNumber: 8, goals: 10, assists: 5, awards: [] }
+  { id: "p13", teamId: "rowe-ballers", name: "Ayo Martins", position: "Forward", jerseyNumber: 8, goals: 10, assists: 5, awards: [] },
+  { id: "p14", teamId: "ikorodu-bulls", name: "Lanre Adesanya", position: "Guard", jerseyNumber: 4, goals: 19, assists: 7, awards: ["Top Scorer"] },
+  { id: "p15", teamId: "island-warriors", name: "Chuka Nweze", position: "Center", jerseyNumber: 10, goals: 16, assists: 3, awards: [] },
+  { id: "p16", teamId: "mainland-giants", name: "Segun Fabunmi", position: "Forward", jerseyNumber: 6, goals: 14, assists: 5, awards: [] },
+  { id: "p17", teamId: "lekki-legends", name: "Tola Oshodi", position: "Guard", jerseyNumber: 1, goals: 21, assists: 9, awards: ["MVP"] },
+  { id: "p18", teamId: "surulere-shocks", name: "Biodun Ajayi", position: "Center", jerseyNumber: 14, goals: 17, assists: 2, awards: [] },
+  { id: "p19", teamId: "yaba-yardbirds", name: "Fola Akintunde", position: "Forward", jerseyNumber: 23, goals: 12, assists: 6, awards: [] }
 ];
 
 export const matches: Match[] = [
@@ -186,11 +277,50 @@ export const matches: Match[] = [
     tournamentId: "ikorodu-hoops",
     homeTeamId: "hoop-kings",
     awayTeamId: "rowe-ballers",
+    homeScore: 78,
+    awayScore: 65,
+    status: "final",
+    startsAt: "2026-07-06T18:30:00Z",
+    venue: "Rowe Park Court A",
+    round: "Quarter Final",
+    events: []
+  },
+  {
+    id: "match-hoops-q2",
+    tournamentId: "ikorodu-hoops",
+    homeTeamId: "ikorodu-bulls",
+    awayTeamId: "lekki-legends",
+    homeScore: 82,
+    awayScore: 70,
+    status: "final",
+    startsAt: "2026-07-06T20:30:00Z",
+    venue: "Rowe Park Court B",
+    round: "Quarter Final",
+    events: []
+  },
+  {
+    id: "match-hoops-q3",
+    tournamentId: "ikorodu-hoops",
+    homeTeamId: "mainland-giants",
+    awayTeamId: "island-warriors",
     homeScore: 0,
     awayScore: 0,
     status: "scheduled",
-    startsAt: "2026-05-30T18:30:00Z",
+    startsAt: "2026-07-10T18:30:00Z",
     venue: "Rowe Park Court A",
+    round: "Quarter Final",
+    events: []
+  },
+  {
+    id: "match-hoops-q4",
+    tournamentId: "ikorodu-hoops",
+    homeTeamId: "surulere-shocks",
+    awayTeamId: "yaba-yardbirds",
+    homeScore: 0,
+    awayScore: 0,
+    status: "scheduled",
+    startsAt: "2026-07-10T20:30:00Z",
+    venue: "Rowe Park Court B",
     round: "Quarter Final",
     events: []
   },
@@ -244,6 +374,80 @@ export const graphicTemplates: GraphicTemplate[] = [
     ratio: "4:5",
     exportTargets: ["PNG", "PDF"],
     description: "Player award graphic for matchday recognition."
+  }
+];
+
+export const brackets: Bracket[] = [
+  {
+    tournamentId: "ikorodu-hoops",
+    rounds: [
+      {
+        id: "qf",
+        name: "Quarter Finals",
+        shortName: "QF",
+        matches: [
+          {
+            id: "bm1",
+            matchId: "match-hoops-q1",
+            home: { teamId: "hoop-kings", score: 78, winner: true },
+            away: { teamId: "rowe-ballers", score: 65, winner: false }
+          },
+          {
+            id: "bm2",
+            matchId: "match-hoops-q2",
+            home: { teamId: "ikorodu-bulls", score: 82, winner: true },
+            away: { teamId: "lekki-legends", score: 70, winner: false }
+          },
+          {
+            id: "bm3",
+            matchId: "match-hoops-q3",
+            scheduledDate: "10 Jul",
+            home: { teamId: "mainland-giants", score: null, winner: false },
+            away: { teamId: "island-warriors", score: null, winner: false }
+          },
+          {
+            id: "bm4",
+            matchId: "match-hoops-q4",
+            scheduledDate: "10 Jul",
+            home: { teamId: "surulere-shocks", score: null, winner: false },
+            away: { teamId: "yaba-yardbirds", score: null, winner: false }
+          }
+        ]
+      },
+      {
+        id: "sf",
+        name: "Semi Finals",
+        shortName: "SF",
+        matches: [
+          {
+            id: "bm5",
+            scheduledDate: "13 Jul",
+            home: { teamId: "hoop-kings", score: null, winner: false },
+            away: { teamId: "ikorodu-bulls", score: null, winner: false }
+          },
+          {
+            id: "bm6",
+            scheduledDate: "13 Jul",
+            home: { teamId: null, score: null, winner: false },
+            away: { teamId: null, score: null, winner: false }
+          }
+        ]
+      },
+      {
+        id: "final",
+        name: "Final",
+        shortName: "F",
+        matches: [
+          {
+            id: "bm7",
+            label: "FINAL",
+            scheduledDate: "18 Jul",
+            home: { teamId: null, score: null, winner: false },
+            away: { teamId: null, score: null, winner: false }
+          }
+        ]
+      }
+    ]
   }
 ];
 

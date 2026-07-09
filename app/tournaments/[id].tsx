@@ -3,6 +3,7 @@ import { CalendarDays, MapPin, Plus, Star, Trophy, UsersRound } from "lucide-rea
 import { StyleSheet, Text, View } from "react-native";
 import { MatchCard } from "@/components/MatchCard";
 import { EmptyState } from "@/components/EmptyState";
+import { KnockoutBracket } from "@/components/KnockoutBracket";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { Screen } from "@/components/Screen";
 import { SectionHeader } from "@/components/SectionHeader";
@@ -18,6 +19,8 @@ export default function TournamentDetailScreen() {
   const tournament = repository.getTournamentById(id);
   const matches = repository.getMatchesByTournament(id);
   const canAddTeam = role === "organizer" || role === "team-manager";
+
+  const bracket = repository.getBracketByTournament(id);
 
   const teamIds = [...new Set(matches.flatMap((m) => [m.homeTeamId, m.awayTeamId]))];
   const topScorers = teamIds
@@ -57,6 +60,15 @@ export default function TournamentDetailScreen() {
         <StatPill label="Prize" value={tournament.prizePool} tone="success" />
         <StatPill label="Format" value={tournament.format} />
       </View>
+
+      {bracket && (
+        <>
+          <SectionHeader title="Bracket" />
+          <View style={styles.bracketContainer}>
+            <KnockoutBracket bracket={bracket} />
+          </View>
+        </>
+      )}
 
       <SectionHeader title="Fixtures" action={matches.length > 0 ? `${matches.length} matches` : undefined} />
       {matches.length > 0 ? (
@@ -214,6 +226,14 @@ const styles = StyleSheet.create({
     color: colors.warning,
     fontFamily: "Sora_800ExtraBold",
     fontSize: 16
+  },
+  bracketContainer: {
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+    padding: 14,
+    overflow: "hidden",
   },
   note: {
     flexDirection: "row",

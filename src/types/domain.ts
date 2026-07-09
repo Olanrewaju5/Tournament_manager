@@ -121,3 +121,30 @@ export type NotificationItem = {
   tone: "info" | "success" | "warning";
   createdAt: string;
 };
+
+export type BracketSlot = {
+  teamId: string | null;
+  score: number | null;
+  winner: boolean;
+};
+
+export type BracketMatch = {
+  id: string;
+  matchId?: string;
+  home: BracketSlot;
+  away: BracketSlot;
+  label?: string;
+  scheduledDate?: string;
+};
+
+export type BracketRound = {
+  id: string;
+  name: string;
+  shortName: string;
+  matches: BracketMatch[];
+};
+
+export type Bracket = {
+  tournamentId: string;
+  rounds: BracketRound[];
+};
